@@ -8,13 +8,12 @@ authors:
 - Alexey Gromov
 
 requires:
-- core/1.2.4: '*'
+  core/1.2.4: '*'
 
 provides: none
 
 ...
 */
- if (typeof(NS) == 'undefined') NS = {};
 $(window).addEvent('domready', function()
 {
 	if ('placeholder' in document.createElement('input')) return;
@@ -23,37 +22,42 @@ $(window).addEvent('domready', function()
 
 	$$('input').each(function(el)
 	{
-		var text = el.getAttribute('placeholder');
-		var defaultColor = el.getStyle('color');
+		var text = el.get('placeholder'),
+		    defaultColor = el.getStyle('color');
 
 		if (text)
 		{
-			el.setStyle('color', color);
-			el.value = text;
+			el
+				.setStyle('color', color)
+				.set('value', text)
 
-			el.addEvent('focus', function()
-			{
-				if (el.value == '' || el.value == text)
+				.addEvent('focus', function()
 				{
-					el.setStyle('color', defaultColor);
-					el.value = '';
-				}
-			});
-			el.addEvent('blur', function()
-			{
-				if (el.value == '' || el.value == text)
+					if (el.value == '' || el.value == text)
+					{
+						el
+							.setStyle('color', defaultColor)
+							.set('value', '');
+					}
+				})
+
+				.addEvent('blur', function()
 				{
-					el.setStyle('color', color);
-					el.value = text;
-				}
-			});
-			var f = el.getParents('form');
-			if (f.length)
+					if (el.value == '' || el.value == text)
+					{
+						el
+							.setStyle('color', color)
+							.set('value', text);
+					}
+				});
+			
+			var form = el.getParent('form');
+			if (form)
 			{
-				f[0].addEvent('submit', function()
+				form.addEvent('submit', function()
 				{
 					if (el.value == text)
-						el.value = '';
+						el.set('value', '');
 				});
 			}
 		}
