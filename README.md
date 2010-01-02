@@ -15,4 +15,5 @@ Just include placeholder.js or placehoder-min.js to your HTML:
 Thanks to
 ---------
 
-Thanks to Nikita Vasilyev for his genius solution: http://github.com/NV/placeholder.js
+Thanks to Nikita Vasilyev for his genius solution: http://github.com/NV/placeholder.js.
+Thanks to Arian Stolwijk for some MooTools experience: http://github.com/arian/MooTools-Placeholder.
