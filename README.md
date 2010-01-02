@@ -3,6 +3,8 @@ MooTools-Placeholder
 
 This simple plugin provides HTML 5 placeholder attribute to all browsers.
 
+![Screenshot](http://github.com/phpinfo/MooTools-Placeholder/raw/master/screenshot.png)
+
 How to use
 ----------
 
