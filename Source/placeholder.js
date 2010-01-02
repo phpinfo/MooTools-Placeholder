@@ -1,6 +1,6 @@
 /*
 ---
-description: Bring HTML 5 placeholder attribute to all browsers
+description: This simple plugin provides HTML 5 placeholder attribute to all browsers.
 
 license: MIT-style
 
