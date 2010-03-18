@@ -47,9 +47,6 @@ NS.Placeholder = new Class({
 	 */
 	initialize: function(options)
 	{
-		// For modern browsers
-		if ('placeholder' in document.createElement('input')) return;
-
 		// Setting options
 		this.setOptions(options);
 
