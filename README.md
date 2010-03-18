@@ -66,6 +66,18 @@ For perfomance reasons you can enable effect for a single element:
 		});
 	</script>
 
+Copy-paste integration:
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+	<script type="text/javascript" src="http://github.com/phpinfo/MooTools-Placeholder/raw/0.4.1/Source/placeholder-min.js"></script>
+	<script type="text/javascript">
+		$(window).addEvent('domready', function(){
+			new NS.Placeholder({
+				color: '#ccc'
+			});
+		});
+	</script>
+
 Thanks to
 ---------
 
