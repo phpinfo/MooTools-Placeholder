@@ -8,9 +8,63 @@ This simple plugin provides HTML 5 placeholder attribute to all browsers.
 How to use
 ----------
 
-Just include placeholder.js or placehoder-min.js to your HTML:
+Simple usage by setting placeholder color in options:
 
 	<script type="text/javascript" src="/js/placeholder-min.js"></script>
+	<script type="text/javascript">
+		$(window).addEvent('domready', function(){
+			new NS.Placeholder({
+				color: '#ccc'
+			});
+		});
+	</script>
+
+By default NS.Placeholder adds 'placeholder' class:
+
+	<style type="text/css">
+		.my-placeholder {
+			color: #ccc;
+		}
+	</style>
+
+	<script type="text/javascript" src="/js/placeholder-min.js"></script>
+	<script type="text/javascript">
+		$(window).addEvent('domready', function(){
+			new NS.Placeholder({
+				cssClass: 'my-placeholder'
+			});
+		});
+	</script>
+
+You can set your elements collection to check ($$('input[type=text]') by default):
+
+	<script type="text/javascript">
+		$(window).addEvent('domready', function(){
+			new NS.Placeholder({
+				elements: $$('.input-search')
+			});
+		});
+	</script>
+
+...or just use string selector:
+
+	<script type="text/javascript">
+		$(window).addEvent('domready', function(){
+			new NS.Placeholder({
+				elements: '.input-search'
+			});
+		});
+	</script>
+
+For perfomance reasons you can enable effect for a single element:
+
+	<script type="text/javascript">
+		$(window).addEvent('domready', function(){
+			new NS.Placeholder({
+				elements: $('searchBox')
+			});
+		});
+	</script>
 
 Thanks to
 ---------
