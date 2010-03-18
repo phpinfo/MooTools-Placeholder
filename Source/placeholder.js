@@ -10,56 +10,130 @@ authors:
 requires:
   core/1.2.4: '*'
 
-provides: none
+provides:
+  NS.Placeholder
 
 ...
 */
-$(window).addEvent('domready', function()
-{
-	if ('placeholder' in document.createElement('input')) return;
+var NS = NS || {};
+NS.Placeholder = new Class({
+	Implements: [Options],
 
-	var color = '#aaa';
+	options: {
+		/**
+		 * Elements to check
+		 * (single element, elements collection or a string selector)
+		 * @var {Element|Elements|String}
+		 */
+		elements: 'input[type=text]',
 
-	$$('input').each(function(el)
+		/**
+		 * CSS class when value is empty
+		 * @var {String}
+		 */
+		cssClass: 'placeholder',
+
+		/**
+		 * Color to apply directly
+		 * @var {String}
+		 */
+		color: null
+	},
+
+	/**
+	 * Initialization
+	 *
+	 * @param {Object}
+	 */
+	initialize: function(options)
 	{
-		var text = el.get('placeholder'),
-		    defaultColor = el.getStyle('color');
+		// For modern browsers
+		if ('placeholder' in document.createElement('input')) return;
 
-		if (text)
+		// Setting options
+		this.setOptions(options);
+
+		// Retrieving elements to check
+		var elements;
+		switch ($type(this.options.elements))
 		{
-			el
-				.setStyle('color', color)
-				.set('value', text)
-
-				.addEvent('focus', function()
-				{
-					if (el.value == '' || el.value == text)
-					{
-						el
-							.setStyle('color', defaultColor)
-							.set('value', '');
-					}
-				})
-
-				.addEvent('blur', function()
-				{
-					if (el.value == '' || el.value == text)
-					{
-						el
-							.setStyle('color', color)
-							.set('value', text);
-					}
-				});
-			
-			var form = el.getParent('form');
-			if (form)
-			{
-				form.addEvent('submit', function()
-				{
-					if (el.value == text)
-						el.set('value', '');
-				});
-			}
+			case 'string':
+				elements = $$(this.options.elements);
+				break;
+			case 'element':
+				elements = [this.options.elements];
+				break;
+			default:
+				elements = this.options.elements;
 		}
-	});
+
+		// Attaching events
+		elements.each(function(el){
+			var text = el.get('placeholder');
+			if (text)
+			{
+				// Storing placeholder text
+				el.store('ns-placeholder-text', text);
+
+				// Storing default color
+				el.store('ns-placeholder-color', el.getStyle('color'));
+
+				// Bluring
+				this.blur(el);
+
+				// Events
+				el.addEvents({
+					focus: function(){ this.focus(el); }.bind(this),
+					blur: function(){ this.blur(el); }.bind(this)
+				});
+
+				// Form submit
+				var form = el.getParent('form');
+				if (form)
+				{
+					form.addEvent('submit', function()
+					{
+						if (el.value == text)
+							el.set('value', '');
+					});
+				}
+			}
+		}.bind(this));
+	},
+
+	/**
+	 * Focus element
+	 * @param {Element}
+	 * @param {Boolean}
+	 */
+	focus: function(el, focus)
+	{
+		focus = focus == undefined || focus;
+
+		var text = el.retrieve('ns-placeholder-text'),
+			value = el.get('value');
+
+		if (value == '' || value == text)
+		{
+			// Setting placeholder CSS class if defined
+			if (this.options.cssClass)
+				el[focus ? 'removeClass' : 'addClass'](this.options.cssClass);
+
+			// Setting color if defined
+			if (this.options.color)
+				el.setStyle('color', focus ? el.retrieve('ns-placeholder-color') : this.options.color);
+
+			// Value
+			el.set('value', focus ? '' : text);
+		}
+	},
+
+	/**
+	 * Blur element
+	 * @param {Element}
+	 */
+	blur: function(el)
+	{
+		this.focus(el, false);
+	}
 });
