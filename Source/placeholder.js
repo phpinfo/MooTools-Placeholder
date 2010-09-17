@@ -47,6 +47,10 @@ NS.Placeholder = new Class({
 	 */
 	initialize: function(options)
 	{
+		if('placeholder' in new Element('input')) {
+			return;
+		}
+
 		// Setting options
 		this.setOptions(options);
 
