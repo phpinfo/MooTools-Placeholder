@@ -6,6 +6,7 @@ license: MIT-style
 
 authors:
 - Alexey Gromov
+- Nathan Reed
 
 requires:
   core/1.2.4: '*'
