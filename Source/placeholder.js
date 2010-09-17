@@ -25,7 +25,7 @@ NS.Placeholder = new Class({
 		 * (single element, elements collection or a string selector)
 		 * @var {Element|Elements|String}
 		 */
-		elements: 'input[type=text]',
+		elements: 'input[type=text], input[type=password]',
 
 		/**
 		 * CSS class when value is empty
@@ -70,6 +70,12 @@ NS.Placeholder = new Class({
 
 		// Attaching events
 		elements.each(function(el){
+
+			// password element in IE? can't do it.
+			if(el.get('type') == 'password' && Browser.Engine.trident) {
+				return;
+			}
+
 			var text = el.get('placeholder');
 			if (text)
 			{
@@ -78,6 +84,8 @@ NS.Placeholder = new Class({
 
 				// Storing default color
 				el.store('ns-placeholder-color', el.getStyle('color'));
+
+				el.store('ns-placeholder-type', el.get('type'));
 
 				// Bluring
 				this.blur(el);
@@ -126,6 +134,14 @@ NS.Placeholder = new Class({
 
 			// Value
 			el.set('value', focus ? '' : text);
+
+			// password inputs are a special case - just setting the value would leave it
+			// masked. So we have to change the type to 'text' to show the placeholder
+			// then change it back to 'password' when the user starts typing...
+			// (does not work in IE)
+			if(el.retrieve('ns-placeholder-type') == 'password') {
+				el.set('type', focus ? 'password' : 'text');
+			}
 		}
 	},
 
