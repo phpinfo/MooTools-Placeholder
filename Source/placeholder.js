@@ -52,7 +52,7 @@ NS.Placeholder = new Class({
 
 		// Retrieving elements to check
 		var elements;
-		switch ($type(this.options.elements))
+		switch (typeOf(this.options.elements))
 		{
 			case 'string':
 				elements = $$(this.options.elements);
