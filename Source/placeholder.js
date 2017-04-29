@@ -46,8 +46,7 @@ NS.Placeholder = new Class({
 	 *
 	 * @param {Object}
 	 */
-	initialize: function(options)
-	{
+	initialize(options) {
 		if('placeholder' in new Element('input')) {
 			return;
 		}
@@ -70,7 +69,7 @@ NS.Placeholder = new Class({
 		}
 
 		// Attaching events
-		elements.each(function(el){
+		elements.each(el => {
 
 			// password element in IE? can't do it.
 			if(el.get('type') == 'password' && Browser.Engine.trident) {
@@ -93,22 +92,21 @@ NS.Placeholder = new Class({
 
 				// Events
 				el.addEvents({
-					focus: function(){ this.focus(el); }.bind(this),
-					blur: function(){ this.blur(el); }.bind(this)
+					focus: () => { this.focus(el); },
+					blur: () => { this.blur(el); }
 				});
 
 				// Form submit
 				var form = el.getParent('form');
 				if (form)
 				{
-					form.addEvent('submit', function()
-					{
+					form.addEvent('submit', () => {
 						if (el.value == text)
 							el.set('value', '');
 					});
 				}
 			}
-		}.bind(this));
+		});
 	},
 
 	/**
@@ -116,14 +114,13 @@ NS.Placeholder = new Class({
 	 * @param {Element}
 	 * @param {Boolean}
 	 */
-	focus: function(el, focus)
-	{
-		focus = focus == undefined || focus;
+	focus(el, focus) {
+        focus = focus == undefined || focus;
 
-		var text = el.retrieve('ns-placeholder-text'),
-			value = el.get('value');
+        var text = el.retrieve('ns-placeholder-text');
+        var value = el.get('value');
 
-		if (value == '' || value == text)
+        if (value == '' || value == text)
 		{
 			// Setting placeholder CSS class if defined
 			if (this.options.cssClass)
@@ -144,14 +141,13 @@ NS.Placeholder = new Class({
 				el.set('type', focus ? 'password' : 'text');
 			}
 		}
-	},
+    },
 
 	/**
 	 * Blur element
 	 * @param {Element}
 	 */
-	blur: function(el)
-	{
+	blur(el) {
 		this.focus(el, false);
 	}
 });
